@@ -78,18 +78,6 @@ const TensionSchema = new mongoose.Schema({
 }, { collection: 'Tension'});
 const Tension = new mongoose.model('Tension', TensionSchema)
 
-const VoltageSchema = new mongoose.Schema({
-  topic: String,
-  payload: {
-    message: Number,
-    time: Date
-  },
-  qos: Number,
-  retain: Boolean,
-  _msgid: String,
-}, { collection: 'Voltage'});
-const Voltage = new mongoose.model('Voltage', VoltageSchema)
-
 const WarningSchema = new mongoose.Schema({
   topic: String,
   payload: {
@@ -102,4 +90,4 @@ const WarningSchema = new mongoose.Schema({
 }, { collection: 'Warning'});
 const Warning = new mongoose.model('Warning', WarningSchema)
 
-module.exports = { Current, Speed, State, Temperature, Tension, Voltage, Warning }
+module.exports = { Current, Speed, State, Temperature, Tension, Warning }
