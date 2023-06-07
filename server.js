@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const PublicationsRoute = require('./routes/pubs.js');
-const env = require('dotenv').config();
-const password = env.parsed.PASSWORD;
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+const password = process.env.PASSWORD;
 
 const app = express();
 app.use((req, res, next) => {
@@ -32,7 +35,7 @@ mongoose.connect(dbUri('Publications'), {
 //   res.render('index')
 // });
 
-app.listen(env.parsed.PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log("Listening at http://localhost:3000");
 })
 
