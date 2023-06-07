@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const PublicationsRoute = require('./routes/pubs.js');
+const path = require('path');
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const password = process.env.PASSWORD;
@@ -15,7 +16,8 @@ app.use((req, res, next) => {
   next();
 });
 app.set('view engine', 'ejs');
-app.use(express.static('public'))
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -30,16 +32,12 @@ mongoose.connect(dbUri('Publications'), {
 .catch(err => console.log(err));
 
 // routes
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
   res.send('Home page');
 });
 
-app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
-})
+app.listen(port, () => console.log(`Server running on port ${port}, http://localhost:${port}`));
 
 process.on('uncaughtException', function(err) {
   console.log(err)
 })
-
-module.exports = app;
