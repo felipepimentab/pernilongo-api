@@ -2,10 +2,11 @@
   "name": "pernilongo-api",
   "version": "1.0.0",
   "description": "API for interaction between frontend app, mongodb and mqtt broker.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
