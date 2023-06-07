@@ -31,7 +31,7 @@ mongoose.connect(dbUri('Publications'), {
 
 // routes
 app.get("/", (req, res) => {
-  res.render('index')
+  res.send('Home page');
 });
 
 app.listen(port, () => {
