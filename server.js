@@ -11,6 +11,8 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+// app.set('view engine', 'ejs');
+app.use(express.static('public'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -26,9 +28,9 @@ mongoose.connect(dbUri('Publications'), {
 .catch(err => console.log(err));
 
 // routes
-app.get("/", (req, res) => {
-  res.send("Página principal")
-});
+// app.get("/", (req, res) => {
+//   res.render('index')
+// });
 
 
 app.listen(env.parsed.PORT, () => {
