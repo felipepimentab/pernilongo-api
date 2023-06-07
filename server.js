@@ -32,9 +32,12 @@ mongoose.connect(dbUri('Publications'), {
 //   res.render('index')
 // });
 
-
 app.listen(env.parsed.PORT, () => {
   console.log("Listening at http://localhost:3000");
+})
+
+process.on('uncaughtException', function(err) {
+  console.log(err)
 })
 
 module.exports = app;
