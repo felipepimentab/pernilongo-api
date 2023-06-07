@@ -5,7 +5,7 @@ const path = require('path');
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const password = process.env.PASSWORD;
-const port = process.env.PORT ? process.env.PORT : '3000'
+const port = process.env.PORT || '3000';
 const dbUri = (db) => `mongodb+srv://felipepbernardo:${password}@pernilongo.6dynetw.mongodb.net/${db}?retryWrites=true&w=majority`;
 
 const app = express();
