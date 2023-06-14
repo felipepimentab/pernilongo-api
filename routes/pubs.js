@@ -2,91 +2,112 @@ const { Current, Speed, State, Temperature, Tension, Warning } = require('../mod
 const express = require('express');
 const router = express.Router();
 
-/**
- * Returns a summary of the last 30 pubs from all topics
- */
-router.get('/all', async (req, res) => { // TO-DO: reescrever com "promise all"
+// -- Get Pubs from All Topics
+router.get('/', async (req, res) => { // TO-DO: reescrever com "promise all"
   const currentPubs = await Current.find();
   const speedPubs = await Speed.find();
   const statePubs = await State.find();
   const temperaturePubs = await Temperature.find();
   const tensionPubs = await Tension.find();
   const warningPubs = await Warning.find();
-  const pubs = { // TO-DO: refazer essa filtragem usando as queries do mongodb
-    current: currentPubs.slice(0,30),
-    speed: speedPubs.slice(0,30),
-    state: statePubs.slice(0,30),
-    temperature: temperaturePubs.slice(0,30),
-    tension: tensionPubs.slice(0,30),
-    warning: warningPubs.slice(0,30)
-  }
+  const pubs = {
+    current: currentPubs, 
+    speed: speedPubs,
+    state: statePubs,
+    temperature: temperaturePubs,
+    tension: tensionPubs,
+    warning: warningPubs
+  };
+
   res.json(pubs);
 });
 
-// -- Current
-router.get('/current', async (req, res) => {
-  const currentPubs = await Current.find();
-  res.json(currentPubs);
-});
-router.post('/current', async (req, res) => {
-  const newCurrentPub = new Current(req.body);
-  const savedCurrentPub = await newCurrentPub.save();
-  res.json(savedCurrentPub);
-});
+// -- Get Pubs from Topic
+router.get('/:topic', checkTopic, async (req, res) => {
+  let pubs
+  try {
+    switch (req.params.topic) {
+      case 'current':
+        pubs = await Current.find();
+        break;
 
-// -- Speed
-router.get('/speed', async (req, res) => {
-  const speedPubs = await Speed.find();
-  res.json(speedPubs);
-});
-router.post('/speed', async (req, res) => {
-  const newSpeedPub = new Speed(req.body);
-  const savedSpeedPub = await newSpeedPub.save();
-  res.json(savedSpeedPub);
-});
+      case 'speed':
+        pubs = await Speed.find();
+        break;
 
-// -- State
-router.get('/state', async (req, res) => { 
-  const statePubs = await State.find();
-  res.json(statePubs);
-});
-router.post('/state', async (req, res) => {
-  const newStatePub = new State(req.body);
-  const savedStatePub = await newStatePub.save();
-  res.json(savedStatePub);
-});
+      case 'state':
+        pubs = await State.find();
+        break;
 
-// -- Temperature
-router.get('/temperature', async (req, res) => {
-  const temperaturePubs = await Temperature.find();
-  res.json(temperaturePubs);
-});
-router.post('/temperature', async (req, res) => {
-  const newTemperaturePub = new Temperature(req.body);
-  const savedTemperaturePub = await newTemperaturePub.save();
-  res.json(savedTemperaturePub);
-});
+      case 'temperature':
+        pubs = await Temperature.find();
+        break;
 
-// -- Tension
-router.get('/tension', async (req, res) => {
-  const tensionPubs = await Tension.find();
-  res.json(tensionPubs);
-});
-router.post('/tension', async (req, res) => {
-  const newTensionPub = new Tension(req.body);
-  const savedTensionPub = await newTensionPub.save();
-  res.json(savedTensionPub);
-});
+      case 'tension':
+        pubs = await Tension.find();
+        break;
 
-// -- Warning
-router.get('/warning', async (req, res) => {
-  const warningPubs = await Warning.find();
-  res.json(warningPubs);
-});
-router.post('/warning', async (req, res) => {
-  const newWarningPub = new Warning(req.body);
-  const savedWarningPub = await newWarningPub.save();
-  res.json(savedWarningPub);
-});
+      case 'warning':
+        pubs = await Warning.find();
+        break;
+
+      default:
+        return res.status(404).json({ message: `Topic ${req.params.topic} does not exist.` })
+    }
+    res.json(pubs);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+})
+
+// -- Post Sub to Topic
+router.post('/:topic', checkTopic, async (req, res) => {
+  let newPub;
+
+  switch (req.params.topic) {
+    case 'current':
+      newPub = new Current(req.body);
+      break;
+
+    case 'speed':
+      newPub = new Speed(req.body);
+      break;
+
+    case 'state':
+      newPub = new State(req.body);
+      break;
+
+    case 'temperature':
+      newPub = new Temperature(req.body);
+      break;
+
+    case 'tension':
+      newPub = new Tension(req.body);
+      break;
+
+    case 'warning':
+      newPub = new Warning(req.body);
+      break;
+
+    default:
+      return res.status(404).json({ message: `Topic ${req.params.topic} does not exist.` })
+  }
+
+  try {
+    const savedPub = await newPub.save();
+    res.status(201).json(savedPub);
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+})
+
+// -- Middleware
+const topics = ['current', 'speed', 'state', 'temperature', 'tension', 'warning']
+async function checkTopic(req, res, next) {
+  if (!topics.includes(req.params.topic))
+    return res.status(404).json({ message: `Topic ${req.params.topic} does not exist.` })
+  next()
+}
 
 module.exports = router;
