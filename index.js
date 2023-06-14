@@ -20,6 +20,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use('/api/pubs', PublicationsRoute)
 
 mongoose.connect(dbUri('Publications'), {
   useNewUrlParser: true,
@@ -27,7 +28,6 @@ mongoose.connect(dbUri('Publications'), {
 })
 .then(() => {
   console.log("Connected to MongoDB");
-  app.use('/api/pubs', PublicationsRoute)
 })
 .catch(err => console.log(err));
 
