@@ -17,151 +17,128 @@
   <p>A API Pernilongo é usada para interfacear a interação da aplicação Front-End e do broker MQTT com o banco de dados MongoDB. Trata-se de uma aplicação Node.js com Express, que utiliza o <em>Mongoose</em> como adaptador do MongoDB.</p>
   <h2><em>Endpoints</em></h2>
 
-  <h3>Geral</h3><!-- GERAL -->
+  <h3>Todos os tópicos</h3> <!-- ROTAS -->
   <article>
     <h4>Obter publicações em todos os tópicos</h4>
     <p>Método: <strong class="get">GET</strong></p>
-    <p>URL: <strong class="url">/api/pubs/all</strong></p>
+    <p>URL: <strong class="url">/api/pubs</strong></p>
     <p>Body: <em>Vazio.</em></p>
     <p>Resposta: <em>Um objeto contendo um vetor para cada tópico.</em></p>
-    <div class="code">
-      <div>{</div>
-      <div class="tab-1"><span class="key">"state"</span>: [</div>
-
-      <div class="tab-2">{</div>
-      <div class="tab-3"><span class="key">"topic"</span>: <span class="val">"/motor/state"</span>,</div>
-      <div class="tab-3"><span class="key">"payload"</span>: {</div>  
-      <div class="tab-4"><span class="key">"message"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-4"><span class="key">"time"</span>: <span class="val">"1686199584568"</span></div>
-      <div class="tab-3">},</div>
-      <div class="tab-3"><span class="key">"qos"</span>: <span class="bool">0</span>,</div>
-      <div class="tab-3"><span class="key">"retain"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-3"><span class="key">"_msgid"</span>: <span class="val">"dadasdiudb98eg217bd128meuid"</span></div>
-      <div class="tab-2">},</div>
-      <div class="tab-2"><span class="muted">...</span></div>
-      
-      <div class="tab-1">],</div>
-      <div class="tab-1"><span class="key">"speed"</span>: [ <span class="muted">...</span> ],</div>
-      <div class="tab-1"><span class="key">"current"</span>: [ <span class="muted">...</span> ],</div>
-      <div class="tab-1"><span class="key">"tension"</span>: [ <span class="muted">...</span> ],</div>
-      <div class="tab-1"><span class="key">"temperature"</span>: [ <span class="muted">...</span> ],</div>
-      <div class="tab-1"><span class="key">"warning"</span>: [ <span class="muted">...</span> ]</div>
-      <div>}</div>
-    </div>
+    <pre class="code">
+      <code>
+{
+  <span class="key">"current"</span>: [
+    {
+      <span class="key">"payload"</span>: {
+        <span class="key">"message"</span>: <span class="bol">2</span>,
+        <span class="key">"time"</span>: <span class="val">"2023-06-15T01:27:36.195Z"</span>
+      },
+      <span class="key">"_id"</span>: <span class="val">"648a690928b46f2b7511281b"</span>,
+      <span class="key">"topic"</span>: <span class="val">"/motor/current"</span>,
+      <span class="key">"qos"</span>: <span class="bol">0</span>,
+      <span class="key">"retain"</span>: <span class="bol">false</span>,
+      <span class="key">"_msgid"</span>: <span class="val">"99321c66ca9084c0"</span>,
+      <span class="key">"__v"</span>: <span class="bol">0</span>
+    },
+    {
+      <span class="key">"payload"</span>: {
+        <span class="key">message"</span>: <span class="bol">2</span>,
+        <span class="key">"time"</span>: <span class="val">"2023-06-15T01:28:01.365Z"</span>
+      },
+      <span class="key">"_ id"</span>: <span class="val">"648a6921de0d30cd70395159"</span>,
+      <span class="key">"topic"</span>: <span class="val">"/motor/current"</span>,
+      <span class="key">"qos"</span>: <span class="bol">0</span>,
+      <span class="key">"retain"</span>: <span class="bol">false</span>,
+      <span class="key">"_msgid"</span>: <span class="val">"caaff3e431ad5145"</span>,
+      <span class="key">"__v"</span>: <span class="bol">0</span>
+    },
+    <span class="muted">...</span>
+  ],
+  <span class="key">"speed"</span>: [ <span class="muted">...</span> ],
+  <span class="key">"state"</span>: [ <span class="muted">...</span> ],
+  <span class="key">"temperature"</span>: [ <span class="muted">...</span> ],
+  <span class="key">"tension"</span>: [ <span class="muted">...</span> ],
+  <span class="key">"warning"</span>: [ <span class="muted">...</span> ]
+}
+      </code>
+    </pre>
   </article>
   
-  <h3>Estado</h3><!-- ESTADO -->
+  <h3>Único Tópico</h3> <!-- TÓPICO -->
   <article>
-    <h4>Obter publicações no tópico Estado</h4>
+    <h4>Obter publicações de um tópico específico</h4>
     <p>Método: <strong class="get">GET</strong></p>
-    <p>URL: <strong class="url">/api/pubs/state</strong></p>
+    <p>URL: <strong class="url">/api/pubs/:topic</strong></p>
     <p>Body: <em>Vazio.</em></p>
     <p>Resposta: <em>Um vetor com as publicações no tópico.</em></p>
-    <div class="code">
-      <div>[</div>
-      <div class="tab-1">{</div>
-      <div class="tab-2"><span class="key">"topic"</span>: <span class="val">"/motor/state"</span>,</div>
-      <div class="tab-2"><span class="key">"payload"</span>: {</div>  
-      <div class="tab-3"><span class="key">"message"</span>: <span class="bool">false</span>,</div>
-      <div class="tab-3"><span class="key">"time"</span>: <span class="val">"1686199584568"</span></div>
-      <div class="tab-2">},</div>
-      <div class="tab-2"><span class="key">"qos"</span>: <span class="bool">0</span>,</div>
-      <div class="tab-2"><span class="key">"retain"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-2"><span class="key">"_msgid"</span>: <span class="val">"dadasdiudb98eg217bd128meuid"</span></div>
-      <div class="tab-1">},</div>
-      <div class="tab-1"><span class="muted">...</span></div>
-      <div>]</div>
-    </div>
-  </article>
-  <article>
-    <h4>Criar nova uma publicação no tópico Estado</h4>
-    <p>Método: <strong class="post">POST</strong></p>
-    <p>URL: <strong class="url">/api/pubs/state</strong></p>
-    <p>Body: <em>É necessário passar um objeto (JSON) contendo a publicação como no exemplo a seguir.</em></p>
-    <div class="code">
-      <div>{</div>
-      <div class="tab-1"><span class="key">"topic"</span>: <span class="val">"/motor/state"</span>,</div>
-      <div class="tab-1"><span class="key">"payload"</span>: {</div>  
-      <div class="tab-2"><span class="key">"message"</span>: <span class="bool">false</span>,</div>
-      <div class="tab-2"><span class="key">"time"</span>: <span class="val">"1686199584568"</span></div>
-      <div class="tab-1">},</div>
-      <div class="tab-1"><span class="key">"qos"</span>: <span class="bool">0</span>,</div>
-      <div class="tab-1"><span class="key">"retain"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-1"><span class="key">"_msgid"</span>: <span class="val">"dadasdiudb98eg217bd128meuid"</span></div>
-      <div>}</div>
-    </div>
-    <p>Resposta: <em>Como confirmação a API retornará o objeto salvo com adição dos campos <span class="mono">"_id"</span> e <span class="mono">"__v"</span>, adicionados pelo MongoDB.</em></p>
-    <div class="code">
-      <div>{</div>
-      <div class="tab-1"><span class="key">"topic"</span>: <span class="val">"/motor/state"</span>,</div>
-      <div class="tab-1"><span class="key">"payload"</span>: {</div>  
-      <div class="tab-2"><span class="key">"message"</span>: <span class="bool">false</span>,</div>
-      <div class="tab-2"><span class="key">"time"</span>: <span class="val">"1686199584568"</span></div>
-      <div class="tab-1">},</div>
-      <div class="tab-1"><span class="key">"qos"</span>: <span class="bool">0</span>,</div>
-      <div class="tab-1"><span class="key">"retain"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-1"><span class="key">"_msgid"</span>: <span class="val">"dadasdiudb98eg217bd128meuid"</span>,</div>
-      <div class="tab-1"><span class="key">"_id"</span>: <span class="val">"64815e63e41b619a5bf6d014"</span>,</div>
-      <div class="tab-1"><span class="key">"__v"</span>: <span class="bool">0</span></div>
-      <div>}</div>
-    </div>
+    <pre class="code">
+      <code>
+[
+  {
+    <span class="key">"payload"</span>: {
+      <span class="key">"message"</span>: <span class="bol">2</span>,
+      <span class="key">"time"</span>: <span class="val">"2023-06-15T01:27:36.195Z"</span>
+    },
+    <span class="key">"_id"</span>: <span class="val">"648a690928b46f2b7511281b"</span>,
+    <span class="key">"topic"</span>: <span class="val">"/motor/current"</span>,
+    <span class="key">"qos"</span>: <span class="bol">0</span>,
+    <span class="key">"retain"</span>: <span class="bol">false</span>,
+    <span class="key">"_msgid"</span>: <span class="val">"99321c66ca9084c0"</span>,
+    <span class="key">"__v"</span>: <span class="bol">0</span>
+  },
+  {
+    <span class="key">"payload"</span>: {
+      <span class="key">message"</span>: <span class="bol">2</span>,
+      <span class="key">"time"</span>: <span class="val">"2023-06-15T01:28:01.365Z"</span>
+    },
+    <span class="key">"_ id"</span>: <span class="val">"648a6921de0d30cd70395159"</span>,
+    <span class="key">"topic"</span>: <span class="val">"/motor/current"</span>,
+    <span class="key">"qos"</span>: <span class="bol">0</span>,
+    <span class="key">"retain"</span>: <span class="bol">false</span>,
+    <span class="key">"_msgid"</span>: <span class="val">"caaff3e431ad5145"</span>,
+    <span class="key">"__v"</span>: <span class="bol">0</span>
+  }
+]
+      </code>
+    </pre>
   </article>
 
-  <h3>Velocidade</h3><!-- VELOCIDADE -->
   <article>
-    <h4>Obter publicações no tópico Velocidade</h4>
-    <p>Método: <strong class="get">GET</strong></p>
-    <p>URL: <strong class="url">/api/pubs/speed</strong></p>
-    <p>Body: <em>Vazio.</em></p>
-    <p>Resposta: <em>Um vetor com as publicações no tópico.</em></p>
-    <div class="code">
-      <div>[</div>
-      <div class="tab-1">{</div>
-      <div class="tab-2"><span class="key">"topic"</span>: <span class="val">"/motor/speed"</span>,</div>
-      <div class="tab-2"><span class="key">"payload"</span>: {</div>  
-      <div class="tab-3"><span class="key">"message"</span>: <span class="bool">75</span>,</div>
-      <div class="tab-3"><span class="key">"time"</span>: <span class="val">"1686199584568"</span></div>
-      <div class="tab-2">},</div>
-      <div class="tab-2"><span class="key">"qos"</span>: <span class="bool">0</span>,</div>
-      <div class="tab-2"><span class="key">"retain"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-2"><span class="key">"_msgid"</span>: <span class="val">"dadasdiudb98eg217bd128meuid"</span></div>
-      <div class="tab-1">},</div>
-      <div class="tab-1"><span class="muted">...</span></div>
-      <div>]</div>
-    </div>
-  </article>
-  <article>
-    <h4>Criar nova uma publicação no tópico Velocidade</h4>
+    <h4>Criar nova uma publicação em um tópico específico</h4>
     <p>Método: <strong class="post">POST</strong></p>
-    <p>URL: <strong class="url">/api/pubs/speed</strong></p>
+    <p>URL: <strong class="url">/api/pubs/:topic</strong></p>
     <p>Body: <em>É necessário passar um objeto (JSON) contendo a publicação como no exemplo a seguir.</em></p>
-    <div class="code">
-      <div>{</div>
-      <div class="tab-1"><span class="key">"topic"</span>: <span class="val">"/motor/speed"</span>,</div>
-      <div class="tab-1"><span class="key">"payload"</span>: {</div>  
-      <div class="tab-2"><span class="key">"message"</span>: <span class="bool">75</span>,</div>
-      <div class="tab-2"><span class="key">"time"</span>: <span class="val">"1686199584568"</span></div>
-      <div class="tab-1">},</div>
-      <div class="tab-1"><span class="key">"qos"</span>: <span class="bool">0</span>,</div>
-      <div class="tab-1"><span class="key">"retain"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-1"><span class="key">"_msgid"</span>: <span class="val">"dadasdiudb98eg217bd128meuid"</span></div>
-      <div>}</div>
-    </div>
-    <p>Resposta: <em>Como confirmação a API retornará o objeto salvo com adição dos campos <span class="mono">"_id"</span> e <span class="mono">"__v"</span>, adicionados pelo MongoDB.</em></p>
-    <div class="code">
-      <div>{</div>
-      <div class="tab-1"><span class="key">"topic"</span>: <span class="val">"/motor/speed"</span>,</div>
-      <div class="tab-1"><span class="key">"payload"</span>: {</div>  
-      <div class="tab-2"><span class="key">"message"</span>: <span class="bool">75</span>,</div>
-      <div class="tab-2"><span class="key">"time"</span>: <span class="val">"1686199584568"</span></div>
-      <div class="tab-1">},</div>
-      <div class="tab-1"><span class="key">"qos"</span>: <span class="bool">0</span>,</div>
-      <div class="tab-1"><span class="key">"retain"</span>: <span class="bool">true</span>,</div>
-      <div class="tab-1"><span class="key">"_msgid"</span>: <span class="val">"dadasdiudb98eg217bd128meuid"</span>,</div>
-      <div class="tab-1"><span class="key">"_id"</span>: <span class="val">"64815e63e41b619a5bf6d014"</span>,</div>
-      <div class="tab-1"><span class="key">"__v"</span>: <span class="bool">0</span></div>
-      <div>}</div>
-    </div>
+    <pre class="code">
+      <code>
+{
+  <span class="key">"payload"</span>: {
+    <span class="key">"message"</span>: <span class="bol">2</span>,
+    <span class="key">"time"</span>: <span class="val">"2023-06-15T01:27:36.195Z"</span>
+  },
+  <span class="key">"topic"</span>: <span class="val">"/motor/current"</span>,
+  <span class="key">"qos"</span>: <span class="bol">0</span>,
+  <span class="key">"retain"</span>: <span class="bol">false</span>,
+  <span class="key">"_msgid"</span>: <span class="val">"99321c66ca9084c0"</span>,
+},
+      </code>
+    </pre>
+    <p>Resposta: <em>Como confirmação, a API retorna o objeto salvo com adição dos campos <samp>"_id"</samp> e <samp>"__v"</samp>, adicionados automaticamente pelo MongoDB.</em></p>
+    <pre class="code">
+      <code>
+{
+  <span class="key">"payload"</span>: {
+    <span class="key">"message"</span>: <span class="bol">2</span>,
+    <span class="key">"time"</span>: <span class="val">"2023-06-15T01:27:36.195Z"</span>
+  },
+  <span class="key">"_id"</span>: <span class="val">"648a690928b46f2b7511281b"</span>,
+  <span class="key">"topic"</span>: <span class="val">"/motor/current"</span>,
+  <span class="key">"qos"</span>: <span class="bol">0</span>,
+  <span class="key">"retain"</span>: <span class="bol">false</span>,
+  <span class="key">"_msgid"</span>: <span class="val">"99321c66ca9084c0"</span>,
+  <span class="key">"__v"</span>: <span class="bol">0</span>
+},
+      </code>
+    </pre>
   </article>
 </body>
 </html>
