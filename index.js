@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const PublicationsRoute = require('./routes/pubs.js');
 const path = require('path');
+const cors = require('cors')
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const password = process.env.PASSWORD;
@@ -20,6 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors())
 app.use('/api/pubs', PublicationsRoute)
 
 mongoose.connect(dbUri('Publications'), {
