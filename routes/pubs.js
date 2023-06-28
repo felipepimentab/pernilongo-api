@@ -1,4 +1,4 @@
-const { Current, Speed, State, Temperature, Tension, Warning } = require('../models/pubs.js');
+const { Current, Speed, State, Temperature, Tension, Warning, Items, Accepted, Rejected } = require('../models/pubs.js');
 const express = require('express');
 const router = express.Router();
 
@@ -104,6 +104,18 @@ router.post('/:topic', checkTopic, async (req, res) => {
       newPub = new Warning(req.body);
       break;
 
+    case 'items':
+      newPub = new Items(req.body);
+      break;
+
+    case 'accepted':
+      newPub = new Accepted(req.body);
+      break;
+
+    case 'rejected':
+      newPub = new Rejected(req.body);
+      break;
+
     default:
       return res.status(404).json({ message: `Topic ${req.params.topic} does not exist.` })
   }
@@ -117,7 +129,7 @@ router.post('/:topic', checkTopic, async (req, res) => {
 })
 
 // -- Middleware
-const topics = ['current', 'speed', 'state', 'temperature', 'tension', 'warning'];
+const topics = ['current', 'speed', 'state', 'temperature', 'tension', 'warning', 'items', 'accepted', 'rejected'];
 async function checkTopic(req, res, next) {
   if (!topics.includes(req.params.topic))
     return res.status(404).json({ message: `Topic \'${req.params.topic}\' does not exist.` })
