@@ -42,7 +42,7 @@ const SpeedSchema = new mongoose.Schema({
 }, { collection: 'Speed'});
 const Speed = new mongoose.model('Speed', SpeedSchema)
 
-const StateSchema = new mongoose.Schema({
+const StateSchema = new mongoose.Schema({ // esteira (reaproveitado)
   topic: String,
   payload: {
     message: Boolean,
@@ -78,7 +78,7 @@ const TensionSchema = new mongoose.Schema({
 }, { collection: 'Tension'});
 const Tension = new mongoose.model('Tension', TensionSchema)
 
-const WarningSchema = new mongoose.Schema({
+const WarningSchema = new mongoose.Schema({ // esteira (reaproveitado)
   topic: String,
   payload: {
     message: String,
@@ -90,4 +90,40 @@ const WarningSchema = new mongoose.Schema({
 }, { collection: 'Warning'});
 const Warning = new mongoose.model('Warning', WarningSchema)
 
-module.exports = { Current, Speed, State, Temperature, Tension, Warning }
+const ItemsSchema = new mongoose.Schema({ // ESTEIRA
+  topic: String,
+  payload: {
+    message: Number,
+    time: Date
+  },
+  qos: Number,
+  retain: Boolean,
+  _msgid: String,
+}, { collection: 'Items'});
+const Items = new mongoose.model('Items', ItemsSchema)
+
+const AcceptedSchema = new mongoose.Schema({ // ESTEIRA
+  topic: String,
+  payload: {
+    message: Number,
+    time: Date
+  },
+  qos: Number,
+  retain: Boolean,
+  _msgid: String,
+}, { collection: 'Accepted'});
+const Accepted = new mongoose.model('Accepted', AcceptedSchema)
+
+const RejectedSchema = new mongoose.Schema({ // ESTEIRA
+  topic: String,
+  payload: {
+    message: Number,
+    time: Date
+  },
+  qos: Number,
+  retain: Boolean,
+  _msgid: String,
+}, { collection: 'Rejected'});
+const Rejected = new mongoose.model('Rejected', RejectedSchema)
+
+module.exports = { Current, Speed, State, Temperature, Tension, Warning, Items, Accepted, Rejected }

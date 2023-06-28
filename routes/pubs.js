@@ -4,22 +4,24 @@ const router = express.Router();
 
 // -- Get Pubs from All Topics
 router.get('/', async (req, res) => { // TO-DO: reescrever com "promise all"
-  const currentPubs = await Current.find();
-  const speedPubs = await Speed.find();
-  const statePubs = await State.find();
-  const temperaturePubs = await Temperature.find();
-  const tensionPubs = await Tension.find();
-  const warningPubs = await Warning.find();
-  const pubs = {
-    current: currentPubs, 
-    speed: speedPubs,
-    state: statePubs,
-    temperature: temperaturePubs,
-    tension: tensionPubs,
-    warning: warningPubs
-  };
-
-  res.json(pubs);
+  // const currentPubs = await Current.find();
+  // const speedPubs = await Speed.find();
+  // const statePubs = await State.find();
+  // const temperaturePubs = await Temperature.find();
+  // const tensionPubs = await Tension.find();
+  // const warningPubs = await Warning.find();
+  // const pubs = {
+  //   current: currentPubs, 
+  //   speed: speedPubs,
+  //   state: statePubs,
+  //   temperature: temperaturePubs,
+  //   tension: tensionPubs,
+  //   warning: warningPubs
+  // };
+  // res.json(pubs);
+  res.status(503).json({ message: 'Route temporarily unavailable.' })
+}).catch((error) => {
+  res.status(500).json({ message: error.message });
 });
 
 // -- Get Pubs from Topic
@@ -27,27 +29,39 @@ router.get('/:topic', checkTopic, async (req, res) => {
   let pubs
   try {
     switch (req.params.topic) {
-      case 'current':
+      case 'current': // MOTOR (exclusivo)
         pubs = await Current.find();
         break;
 
-      case 'speed':
+      case 'speed': // MOTOR (exclusivo)
         pubs = await Speed.find();
         break;
 
-      case 'state':
+      case 'state': // MOTOR & ESTEIRA (reaproveitado)
         pubs = await State.find();
         break;
 
-      case 'temperature':
+      case 'temperature': // MOTOR (exclusivo)
         pubs = await Temperature.find();
         break;
 
-      case 'tension':
+      case 'tension': // MOTOR (exclusivo)
         pubs = await Tension.find();
         break;
 
-      case 'warning':
+      case 'warning': // MOTOR & ESTEIRA (reaproveitado)
+        pubs = await Warning.find();
+        break;
+
+      case 'items': // ESTEIRA (exclusivo)
+        pubs = await Warning.find();
+        break;
+
+      case 'accepted': // ESTEIRA (exclusivo)
+        pubs = await Warning.find();
+        break;
+
+      case 'rejected': // ESTEIRA (exclusivo)
         pubs = await Warning.find();
         break;
 
@@ -103,10 +117,10 @@ router.post('/:topic', checkTopic, async (req, res) => {
 })
 
 // -- Middleware
-const topics = ['current', 'speed', 'state', 'temperature', 'tension', 'warning']
+const topics = ['current', 'speed', 'state', 'temperature', 'tension', 'warning'];
 async function checkTopic(req, res, next) {
   if (!topics.includes(req.params.topic))
-    return res.status(404).json({ message: `Topic ${req.params.topic} does not exist.` })
+    return res.status(404).json({ message: `Topic \'${req.params.topic}\' does not exist.` })
   next()
 }
 
