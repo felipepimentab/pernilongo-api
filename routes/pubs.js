@@ -4,31 +4,33 @@ const router = express.Router();
 
 // -- Get Pubs from All Topics
 router.get('/', async (req, res) => { // TO-DO: reescrever com "promise all"
-  const currentPubs = await Current.find();
-  const speedPubs = await Speed.find();
-  const statePubs = await State.find();
-  const temperaturePubs = await Temperature.find();
-  const tensionPubs = await Tension.find();
-  const warningPubs = await Warning.find();
-  const itemsPubs = await Items.find();
-  const acceptedPubs = await Accepted.find();
-  const rejectedPubs = await Rejected.find();
+  try {
+    const currentPubs = await Current.find();
+    const speedPubs = await Speed.find();
+    const statePubs = await State.find();
+    const temperaturePubs = await Temperature.find();
+    const tensionPubs = await Tension.find();
+    const warningPubs = await Warning.find();
+    const itemsPubs = await Items.find();
+    const acceptedPubs = await Accepted.find();
+    const rejectedPubs = await Rejected.find();
 
-  const pubs = {
-    current: currentPubs, 
-    speed: speedPubs,
-    state: statePubs,
-    temperature: temperaturePubs,
-    tension: tensionPubs,
-    warning: warningPubs,
-    items: itemsPubs,
-    accepted: acceptedPubs,
-    rejected: rejectedPubs
-  };
-  // res.json(pubs);
-  res.status(503).json({ message: 'Route temporarily unavailable.' })
-}).catch((error) => {
-  res.status(500).json({ message: error.message });
+    const pubs = {
+      current: currentPubs, 
+      speed: speedPubs,
+      state: statePubs,
+      temperature: temperaturePubs,
+      tension: tensionPubs,
+      warning: warningPubs,
+      items: itemsPubs,
+      accepted: acceptedPubs,
+      rejected: rejectedPubs
+    };
+    // res.json(pubs);
+    res.status(503).json({ message: 'Route temporarily unavailable.' })
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // -- Get Pubs from Topic
