@@ -63,15 +63,15 @@ router.get('/:topic', checkTopic, async (req, res) => {
         break;
 
       case 'items': // ESTEIRA (exclusivo)
-        pubs = await Warning.find();
+        pubs = await Items.find();
         break;
 
       case 'accepted': // ESTEIRA (exclusivo)
-        pubs = await Warning.find();
+        pubs = await Accepted.find();
         break;
 
       case 'rejected': // ESTEIRA (exclusivo)
-        pubs = await Warning.find();
+        pubs = await Rejected.find();
         break;
 
       default:
