@@ -26,8 +26,8 @@ router.get('/', async (req, res) => { // TO-DO: reescrever com "promise all"
       accepted: acceptedPubs,
       rejected: rejectedPubs
     };
-    // res.json(pubs);
-    res.status(503).json({ message: 'Route temporarily unavailable.' })
+    res.json(pubs);
+    // res.status(503).json({ message: 'Route temporarily unavailable.' })
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
